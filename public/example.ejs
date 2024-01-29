@@ -6,6 +6,49 @@
 </head>
 
 <body>
+
+
+    <ul>
+        <% obj.forEach(function(justOne) { %>
+        <li>
+        <!-- Id - <strong><%= justOne.theaterId %></strong> <br> -->
+        name - <strong><%= justOne.name %></strong> /
+       lname - <strong><%= justOne.lname %></strong> /
+        age - <strong><%= justOne.age %></strong> /
+       email - <strong><%= justOne.email %></strong> <br> <br>
+        </li>
+        <% }); %>
+        </ul>
+
+
+
+
+        <table>
+            <tr>
+                <td>name</td>
+                <td>lname</td>
+                <td>age</td>
+                <td>email</td>
+                <td>password</td>
+                <td>Update</td>
+                <td>Delete</td>
+            </tr>
+             <% obj.forEach(function(justOne) { %>
+            <tr>
+                <td><%= justOne.name %></td>
+                <td><%= justOne.lname %></td>
+                <td><%= justOne.age %></td>
+                <td><%= justOne.email %></td>
+                <td><%= justOne.password %></td>
+                <td><a class="update" href="update?id=<%= justOne._name %>">Update</a></td>
+                <td><a class="delete" href="delete?id=<%= justOne._name %>">Delete</a></td>
+            </tr>
+        <% }); %>
+        </table>
+
+
+
+
  <div class="container">
  <h1>Sign Up</h1>
  <!-- <form action="/addName" method="post"> -->
@@ -43,6 +86,10 @@
 
  <br><input type="submit" onclick="send()"></button><br>
  <!-- </form> -->
+
+
+<button onclick="updateFunction()">Update</button>
+<button onclick="deleteFunction()">Delete</button>
 
 <script src="script.js"></script>
 

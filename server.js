@@ -7,7 +7,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json())
 const mongoose = require('mongoose');
 // Replace the connection string with your MongoDB connection string
-const connectionString = 'mongodb+srv://lyovaminasyan:lyov2126@cluster0.yhxeiwi.mongodb.net/sample_mflix';
+const connectionString = 'mongodb+srv://lyovaminasyan:lyov2126@cluster0.yhxeiwi.mongodb.net/CRUD';
 // Connect to MongoDB
 // mongoose.connect(connectionString, { useUnifiedTopology: true });
 // Check the connection
@@ -17,10 +17,66 @@ const connectionString = 'mongodb+srv://lyovaminasyan:lyov2126@cluster0.yhxeiwi.
 
 
 
-app.get("/", function(req, res){
-    res.sendFile(path.join(__dirname,'./public/example.html'));
+
+const { Schema } = mongoose;
+mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true });
+const db = mongoose.connection;
+
+const SchemaClient = new Schema({
+Client_fName: String,
+Client_lname: String,
+Client_email: String,
+Client_age: Number,
+Client_password: String,
 
 });
+const clients = mongoose.model('clients', SchemaClient);
+db.on('error', console.error.bind(console, 'Connection error:'));
+db.once('open', async () => {
+console.log('Connected to MongoDB!');
+try {
+const accProgm = await clients.createCollection();
+
+} catch (error) {
+console.error('Error retrieving data:', error);
+} finally {
+mongoose.connection.close();
+}
+});
+
+
+app.get("/", function(req, res){
+    // res.sendFile(path.join(__dirname,'./public/example.ejs'));
+
+    mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true });
+    const db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'Connection error:'));
+    db.once('open', async () => {
+        try {
+            let result = await mongoose.connection.db.collection('clients').find({name: "Lyova" , lname: "Minasyan" ,}).toArray()
+            res.render('../public/example.ejs', {
+                obj: result
+            });
+        } catch (error) {
+            console.error('Error retrieving movies:', error);
+        } finally {
+            mongoose.connection.close();
+        }
+
+
+
+
+    })
+    // var info = [
+    //     { name: 'Sammy', organization: "DigitalOcean", birth_year: 2012 },
+    //     { name: 'Tux', organization: "Linux", birth_year: 1996 },
+    //     { name: 'Moby Dock', organization: "Docker", birth_year: 2013 }
+    // ];
+});
+
+
+
+
 
 app.post('/addName', async (req, res) => {
     const fname = req.body.fname;
@@ -34,7 +90,7 @@ app.post('/addName', async (req, res) => {
     db.once('open', async () => {
         console.log('Connected to MongoDB!');
         try {
-           let result = await mongoose.connection.db.collection('users').insertOne({
+           let result = await mongoose.connection.db.collection('clients').insertOne({
                 name: fname,
                 lname: lname,
                 email: email,
@@ -91,24 +147,24 @@ app.post('/addName', async (req, res) => {
 //                     name : fname,
 //                     email : email,
 //                     password : password,
-//                 }  
+//                 }
 //                )
 //             console.log(result);
 //             console.log('Received data:', fname ,lname, age , email, date );
 //            res.redirect("/");
-        
-           
-//          }); 
-        
+
+
+//          });
+
 //          }catch (error) {
 //         console.error('Error retrieving movies:', error);
 //         } finally {
 //         mongoose.connection.close();
 //         }
-    
+
 //         //toArray() find({ $or :[{"location.address.city":"California" }, {"location.address.city" : "Long Beach"} ] }
-    
-    
+
+
 //     // You can add additional code here for testing or other operations
 //     // Make sure to close the connection when you're done
 //     mongoose.connection.close();
@@ -117,20 +173,4 @@ app.post('/addName', async (req, res) => {
 
 
 
-// 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
