@@ -1,27 +1,28 @@
 <!DOCTYPE html>
 <html>
+
 <head>
- <title>Sign Up</title>
- <link rel="stylesheet"="style/css" href="style.css">
+    <title>Sign Up</title>
+    <link rel="stylesheet"="style/css" href="styles.css">
 </head>
 
 <body>
-
+    <!--
 
     <ul>
         <% obj.forEach(function(justOne) { %>
         <li>
-        <!-- Id - <strong><%= justOne.theaterId %></strong> <br> -->
-        name - <strong><%= justOne.name %></strong> /
+         Id - <strong><%= justOne.theaterId %></strong> <br> -->
+    <!-- name - <strong><%= justOne.name %></strong> /
        lname - <strong><%= justOne.lname %></strong> /
         age - <strong><%= justOne.age %></strong> /
        email - <strong><%= justOne.email %></strong> <br> <br>
         </li>
         <% }); %>
-        </ul>
+        </ul> -->
 
 
-
+    <div class="ud">
 
         <table>
             <tr>
@@ -33,67 +34,61 @@
                 <td>Update</td>
                 <td>Delete</td>
             </tr>
-             <% obj.forEach(function(justOne) { %>
-            <tr>
-                <td><%= justOne.name %></td>
-                <td><%= justOne.lname %></td>
-                <td><%= justOne.age %></td>
-                <td><%= justOne.email %></td>
-                <td><%= justOne.password %></td>
-                <td><a class="update" href="update?id=<%= justOne._name %>">Update</a></td>
-                <td><a class="delete" href="delete?id=<%= justOne._name %>">Delete</a></td>
-            </tr>
-        <% }); %>
+            <% obj.forEach(function(justOne) { %>
+                <tr>
+                    <td>
+                        <%= justOne.name %>
+                    </td>
+                    <td>
+                        <%= justOne.lname %>
+                    </td>
+                    <td>
+                        <%= justOne.age %>
+                    </td>
+                    <td>
+                        <%= justOne.email %>
+                    </td>
+                    <td>
+                        <%= justOne.password %>
+                    </td>
+                    <td><a class="update" href="update/<%= justOne._id %>">Update</a></td>
+                    <td><a class="delete" href="delete/<%= justOne._id %>">Delete</a></td>
+                </tr>
+                <% }); %>
         </table>
 
+    </div>
+
+
+    <div class="container">
+        <h1>Sign Up</h1>
+        <form action="/addName" method="post">
+        <label class="textt" for="fname">First Name:</label><br>
+        <input type="text" id="fname" name="fname"><br>
+
+        <label class="textt" for="lname">Last Name:</label><br>
+        <input type="text" id="lname" name="lname"><br>
+
+        <label class="textt" for="age">Age:</label><br>
+        <input type="number" id="age" name="age"><br>
+
+        <label class="textt" for="email">Email:</label><br>
+        <input type="email" id="email" name="email"><br>
+
+        <label class="textt" for="password">Password:</label><br>
+        <input type="password" id="password" name="password"><br>
+
+
+        <br><input class="button-88" type="submit" ></button><br>
+        </form>
 
 
 
- <div class="container">
- <h1>Sign Up</h1>
- <!-- <form action="/addName" method="post"> -->
- <label for="fname">First Name:</label><br>
- <input type="text" id="fname" name="fname"><br>
 
- <label for="lname">Last Name:</label><br>
- <input type="text" id="lname" name="lname"><br>
+        <script src="script.js"></script>
 
- <label for="age">Age:</label><br>
- <input type="number" id="age" name="age"><br>
-
- <label for="email">Email:</label><br>
- <input type="email" id="email" name="email"><br>
-
- <label for="password">Password:</label><br>
- <input type="password" id="password" name="password"><br>
-
- <label for="radio">Male:</label>
- <input type="radio" id="radio" name="radio">
- <label for="radio">Female:</label>
- <input type="radio" id="radio" name="radio"><br>
-
- <label for="range">Range:</label><br>
- <input type="range" id="range" name="range"><br>
-
- <label for="checkbox">Send messsages to your email:</label><br>
- <input type="checkbox" id="checkbox" name="checkbox"><br>
-
- <label for="date">Birth:</label><br>
- <input type="date" id="date" name="date"><br>
-
- <label for="color">Color:</label><br>
- <input type="color" id="color" name="color"><br>
-
- <br><input type="submit" onclick="send()"></button><br>
- <!-- </form> -->
-
-
-<button onclick="updateFunction()">Update</button>
-<button onclick="deleteFunction()">Delete</button>
-
-<script src="script.js"></script>
-
- </div>
+    </div>
 
 </body>
+
 </html>

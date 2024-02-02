@@ -6,6 +6,7 @@ app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json())
 const mongoose = require('mongoose');
+const { ObjectId } = require('mongoose').Types;
 // Replace the connection string with your MongoDB connection string
 const connectionString = 'mongodb+srv://lyovaminasyan:lyov2126@cluster0.yhxeiwi.mongodb.net/CRUD';
 // Connect to MongoDB
@@ -13,7 +14,6 @@ const connectionString = 'mongodb+srv://lyovaminasyan:lyov2126@cluster0.yhxeiwi.
 // Check the connection
 // const db = mongoose.connection;
 // db.on('error', console.error.bind(console, 'Connection error:'));
-
 
 
 
@@ -30,6 +30,7 @@ Client_age: Number,
 Client_password: String,
 
 });
+
 const clients = mongoose.model('clients', SchemaClient);
 db.on('error', console.error.bind(console, 'Connection error:'));
 db.once('open', async () => {
@@ -46,14 +47,12 @@ mongoose.connection.close();
 
 
 app.get("/", function(req, res){
-    // res.sendFile(path.join(__dirname,'./public/example.ejs'));
-
     mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true });
     const db = mongoose.connection;
     db.on('error', console.error.bind(console, 'Connection error:'));
     db.once('open', async () => {
         try {
-            let result = await mongoose.connection.db.collection('clients').find({name: "Lyova" , lname: "Minasyan" ,}).toArray()
+            let result = await mongoose.connection.db.collection('clients').find().toArray()
             res.render('../public/example.ejs', {
                 obj: result
             });
@@ -62,16 +61,7 @@ app.get("/", function(req, res){
         } finally {
             mongoose.connection.close();
         }
-
-
-
-
     })
-    // var info = [
-    //     { name: 'Sammy', organization: "DigitalOcean", birth_year: 2012 },
-    //     { name: 'Tux', organization: "Linux", birth_year: 1996 },
-    //     { name: 'Moby Dock', organization: "Docker", birth_year: 2013 }
-    // ];
 });
 
 
@@ -84,6 +74,7 @@ app.post('/addName', async (req, res) => {
     const email = req.body.email;
     const lname = req.body.lname;
     const age = req.body.age;
+    const uuid = req.body.uuid;
     mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true });
     const db = mongoose.connection;
     db.on('error', console.error.bind(console, 'Connection error:'));
@@ -96,9 +87,10 @@ app.post('/addName', async (req, res) => {
                 email: email,
                 password: password,
                 age: age,
+                uuid: uuid,
 
             })
-            res.json(result);
+         res.redirect('/')
         } catch (error) {
             console.error('Error retrieving movies:', error);
         } finally {
@@ -106,6 +98,78 @@ app.post('/addName', async (req, res) => {
         }
     })
  });
+
+
+ app.get("/delete/:id", function (req, res) {
+    var id = req.params.id;
+       mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true });
+       const db = mongoose.connection;
+       db.on('error', console.error.bind(console, 'Connection error:'));
+       db.once('open', async () => {
+           try {
+               let result = await mongoose.connection.db.collection('clients').deleteOne({_id: new ObjectId(id)});
+               res.json(result);
+           } catch (error) {
+               console.error('Error retrieving movies:', error);
+           } finally {
+               mongoose.connection.close();
+           }
+       })
+   });
+
+
+   app.get("/update/:id", function (req, res) {
+    var id = req.params.id;
+    mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true });
+    const db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'Connection error:'));
+    db.once('open', async () => {
+        try {
+            let result = await mongoose.connection.db.collection('clients').findOne({_id: new ObjectId(id)});
+            res.render('../public/update.ejs', {
+                obj: result
+            });
+        } catch (error) {
+            console.error('Error retrieving movies:', error);
+        } finally {
+            mongoose.connection.close();
+        }
+    })
+});
+
+
+app.post("/updateData", function (req, res) {
+    const name = req.body.name;
+    const lname = req.body.lname;
+    const age = req.body.age;
+    const email = req.body.email;
+    const password = req.body.password;
+    const id = req.body.id;
+
+    mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true });
+    const db = mongoose.connection;
+
+    db.on('error', console.error.bind(console, 'Connection error:'));
+
+    db.once('open', async () => {
+        console.log('Connected to MongoDB!');
+
+        try {
+            let result = await mongoose.connection.db.collection('clients').updateOne(
+                { _id: new ObjectId(id) },
+                { $set: { name: name, lname: lname, age: age, email: email, password: password } }
+            );
+
+           res.redirect('/')
+        } catch (error) {
+            console.error('Error updating product:', error);
+        } finally {
+            mongoose.connection.close();
+        }
+    });
+});
+
+
 
 
 

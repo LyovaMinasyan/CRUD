@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+<style>
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+body{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: url(bg.jpg) no-repeat;
+  background-size: cover;
+  background-position: ceßnter;
+}
+.container{
+  width: 420px;
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, .2);
+  backdrop-filter: blur(9px);
+  color: #fff;
+  border-radius: 12px;
+  padding: 30px 40px;
+}
+
+
+
+</style>
+
+
+
+
+
+<div class="container">
+
+    </table class="inputt">
+    <form action="/updateData" method="post">
+        <input id="PrName" type="text" required name="name" placeholder="Name" value = "<%= obj.name %>"><br><br>
+        <input id="PrPrice" type="text" name="lname" placeholder="lname" value = "<%= obj.lname %>"><br><br>
+        <input id="PrPrice" type="text" name="email" placeholder="email" value = "<%= obj.email %>"><br><br>
+        <input id="PrPrice" type="text" name="password" placeholder="password" value = "<%= obj.password %>"><br><br>
+        <input id="PrUUID" type="number" name="age" placeholder="age"  value = "<%= obj.age %>"><br><br>
+        <input  type="hidden" name="id"   value = "<%= obj._id %>"><br><br>
+        <input type="submit">
+
+    </form>
+
+</div>
+</body>
+</html>
